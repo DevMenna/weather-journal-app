@@ -2,10 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 
-import fetch from "node-fetch";
-
-const baseURL = "http://api.openweathermap.org/data/2.5/weather?zip=";
-const apiKey = "&appid=392991b9a329ba78de92bc7ffe42e778";
+/* import fetch from "node-fetch"; */
 
 // Setup empty JS object to act as endpoint for all routes
 const projectData = {};
@@ -46,7 +43,7 @@ app.post("/add", (req, res) => {
   res.send(projectData);
 });
 
-app.post("/weather", async (req, res) => {
+/* app.post("/weather", async (req, res) => {
   const { zCode } = req.body;
 
   try {
@@ -57,3 +54,4 @@ app.post("/weather", async (req, res) => {
     console.log("error", error);
   }
 });
+ */
