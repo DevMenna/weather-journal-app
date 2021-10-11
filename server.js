@@ -5,7 +5,7 @@ import cors from "cors";
 /* import fetch from "node-fetch"; */
 
 // Setup empty JS object to act as endpoint for all routes
-const projectData = {};
+let projectData = {};
 
 // Require Express to run server and routes
 

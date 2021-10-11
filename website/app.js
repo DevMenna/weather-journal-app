@@ -41,21 +41,26 @@ const run = async () => {
   try {
     const weather = await fetch(baseURL + zCode + apiKey);
     const weatherData = await weather.json();
-    console.log(weatherData);
 
-    console.log("I've been clicked");
+    const d = new Date(weatherData.dt * 1000);
+    const newDate = d.getMonth() + "." + d.getDate() + "." + d.getFullYear();
 
-    console.log(zCode);
-    console.log(weatherData);
-    let d = new Date(weatherData.dt * 1000);
-    let newDate = d.getMonth() + "." + d.getDate() + "." + d.getFullYear();
-    const date = document.getElementById("date");
-    date.innerHTML = "Today's date is  : " + newDate;
-    const temp = document.getElementById("temp");
-    temp.innerHTML = "Temp today is : " + weatherData.main.temp + " K";
-    const text = document.getElementById("content");
-    text.innerHTML =
-      "Your feelings today are  : " + document.getElementById("feelings").value;
+    const feeling = document.getElementById("feelings").value;
+    const weData = {
+      date: newDate,
+      temp: weatherData.main.temp,
+      feelings: feeling,
+    };
+    await postData("http://localhost:3030/add", weData);
+
+    const projectData = await getData("http://localhost:3030/get");
+
+    console.log(projectData);
+
+    date.innerHTML = "Temp's date is  : " + projectData.date;
+    temp.innerHTML = "Temp's value is : " + projectData.temp + " K";
+    const content = document.getElementById("content");
+    content.innerHTML = "Your feelings today are  : " + projectData.feelings;
   } catch (error) {
     console.log("error", error);
   }
