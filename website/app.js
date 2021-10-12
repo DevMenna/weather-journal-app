@@ -47,6 +47,14 @@ const updateUi = async () => {
   }
 };
 
+//function to determine the date
+
+const daysDate = () => {
+  const d = new Date();
+  const newDate = d.getMonth() + 1 + "/" + d.getDate() + "/" + d.getFullYear();
+  return newDate;
+};
+
 const run = async () => {
   const zCode = document.getElementById("zip").value;
 
@@ -54,12 +62,9 @@ const run = async () => {
     const weather = await fetch(baseURL + zCode + units + apiKey);
     const weatherData = await weather.json();
 
-    const d = new Date(weatherData.dt * 1000);
-    const newDate = d.getMonth() + "." + d.getDate() + "." + d.getFullYear();
-
     const feeling = document.getElementById("feelings").value;
     const weData = {
-      date: newDate,
+      date: daysDate(),
       temp: weatherData.main.temp,
       feelings: feeling,
     };
