@@ -1,7 +1,7 @@
 /* Global Variables */
 const baseURL = "http://api.openweathermap.org/data/2.5/weather?zip=";
 const apiKey = "&appid=392991b9a329ba78de92bc7ffe42e778";
-
+const units = "&units=imperial";
 // Create a new date instance dynamically with JS
 
 const getData = async (url = "") => {
@@ -35,11 +35,23 @@ const postData = async (url = "", data = {}) => {
   }
 };
 
+const updateUi = async () => {
+  try {
+    const projectData = await getData("http://localhost:3030/get");
+    date.innerHTML = "Temp's date is  : " + projectData.date;
+    temp.innerHTML = "Temp's value is : " + projectData.temp + " F";
+    const content = document.getElementById("content");
+    content.innerHTML = "Your feelings today are  : " + projectData.feelings;
+  } catch (error) {
+    console.log("error", error);
+  }
+};
+
 const run = async () => {
   const zCode = document.getElementById("zip").value;
 
   try {
-    const weather = await fetch(baseURL + zCode + apiKey);
+    const weather = await fetch(baseURL + zCode + units + apiKey);
     const weatherData = await weather.json();
 
     const d = new Date(weatherData.dt * 1000);
@@ -53,14 +65,7 @@ const run = async () => {
     };
     await postData("http://localhost:3030/add", weData);
 
-    const projectData = await getData("http://localhost:3030/get");
-
-    console.log(projectData);
-
-    date.innerHTML = "Temp's date is  : " + projectData.date;
-    temp.innerHTML = "Temp's value is : " + projectData.temp + " K";
-    const content = document.getElementById("content");
-    content.innerHTML = "Your feelings today are  : " + projectData.feelings;
+    await updateUi();
   } catch (error) {
     console.log("error", error);
   }
